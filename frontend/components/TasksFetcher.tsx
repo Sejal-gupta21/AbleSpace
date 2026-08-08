@@ -4,7 +4,11 @@ import { useEffect, useState } from 'react';
 import type { Task } from '../lib/types';
 import TaskCard from './TaskCard';
 
-export default function TasksFetcher() {
+interface TasksFetcherProps {
+  reloadSignal: number;
+}
+
+export default function TasksFetcher({ reloadSignal }: TasksFetcherProps) {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -13,6 +17,8 @@ export default function TasksFetcher() {
     let mounted = true;
     async function load() {
       try {
+        setLoading(true);
+        setError(null);
         const res = await fetch('/api/tasks');
         if (!res.ok) throw new Error('Failed to fetch');
         const data = await res.json();
@@ -29,7 +35,7 @@ export default function TasksFetcher() {
     return () => {
       mounted = false;
     };
-  }, []);
+  }, [reloadSignal]);
 
   const statusColumns = [
     { label: 'To Do', value: 'todo' as const },

@@ -1,8 +1,13 @@
 'use client';
 
 import FieldMenu from './FieldMenu';
+import AddTaskButton from './AddTaskButton';
 
-export default function TopBar() {
+interface TopBarProps {
+  onAddTask: () => void;
+}
+
+export default function TopBar({ onAddTask }: TopBarProps) {
   return (
     <div className="flex flex-col gap-4 rounded-[32px] border border-[var(--border)] bg-[var(--surface)] p-6 shadow-sm sm:flex-row sm:items-center sm:justify-between">
       <div className="flex flex-1 flex-col gap-4 sm:flex-row sm:items-center">
@@ -34,12 +39,7 @@ export default function TopBar() {
         >
           Continue as Guest
         </button>
-        <button
-          type="button"
-          className="rounded-2xl bg-brand-500 px-5 py-3 text-sm font-semibold text-white transition hover:bg-brand-600"
-        >
-          + Add Task
-        </button>
+        <AddTaskButton onClick={onAddTask} />
       </div>
     </div>
   );

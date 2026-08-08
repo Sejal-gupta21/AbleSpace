@@ -1,9 +1,16 @@
+'use client';
+
+import { useState } from 'react';
 import ThemeToggle from '../components/ThemeToggle';
 import Sidebar from '../components/Sidebar';
 import TasksFetcher from '../components/TasksFetcher';
 import TopBar from '../components/TopBar';
+import AddTaskModal from '../components/AddTaskModal';
 
 export default function Home() {
+  const [isAddOpen, setIsAddOpen] = useState(false);
+  const [reloadSignal, setReloadSignal] = useState(0);
+
   return (
     <main className="min-h-screen bg-[var(--bg)] p-6 text-[var(--text)]">
       <div className="mx-auto grid max-w-7xl gap-6 lg:grid-cols-[280px_1fr]">
@@ -18,10 +25,17 @@ export default function Home() {
             <ThemeToggle />
           </header>
 
-          <TopBar />
-          <TasksFetcher />
+          <TopBar onAddTask={() => setIsAddOpen(true)} />
+          <TasksFetcher reloadSignal={reloadSignal} />
         </section>
       </div>
+
+      {isAddOpen ? (
+        <AddTaskModal
+          onClose={() => setIsAddOpen(false)}
+          onCreate={() => setReloadSignal((prev) => prev + 1)}
+        />
+      ) : null}
     </main>
   );
 }
