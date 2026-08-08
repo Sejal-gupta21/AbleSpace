@@ -7,4 +7,5 @@ export interface Task {
   assignee: string;
   dueDate: string;
   status: TaskStatus;
+  labels?: string[];
 }

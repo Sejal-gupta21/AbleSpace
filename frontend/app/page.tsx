@@ -1,6 +1,7 @@
 import ThemeToggle from '../components/ThemeToggle';
 import Sidebar from '../components/Sidebar';
 import TasksFetcher from '../components/TasksFetcher';
+import TopBar from '../components/TopBar';
 
 export default function Home() {
   return (
@@ -17,6 +18,7 @@ export default function Home() {
             <ThemeToggle />
           </header>
 
+          <TopBar />
           <TasksFetcher />
         </section>
       </div>

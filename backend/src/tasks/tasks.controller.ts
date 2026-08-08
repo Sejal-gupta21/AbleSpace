@@ -1,9 +1,12 @@
 import { Controller, Get } from '@nestjs/common';
+import { TasksService } from './tasks.service';
 
 @Controller('tasks')
 export class TasksController {
+  constructor(private readonly tasksService: TasksService) {}
+
   @Get()
   getTasks() {
-    return [{ id: 1, title: 'Design Homepage', status: 'todo' }];
+    return this.tasksService.getAll();
   }
 }

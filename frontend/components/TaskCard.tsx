@@ -14,16 +14,27 @@ const priorityStyles: Record<Task['priority'], string> = {
 
 export default function TaskCard({ task }: TaskCardProps) {
   return (
-    <article className="rounded-3xl border border-[var(--border)] bg-[var(--surface)] p-4 shadow-sm">
+    <article className="rounded-3xl border border-[var(--border)] bg-[var(--surface)] p-4 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
       <div className="flex items-start justify-between gap-3">
         <h3 className="text-base font-semibold">{task.title}</h3>
         <span className={`text-xs font-semibold ${priorityStyles[task.priority]}`}>{task.priority}</span>
       </div>
-      <div className="mt-4 flex items-center gap-2 text-sm text-[var(--muted)]">
+
+      <div className="mt-4 flex flex-wrap items-center gap-2 text-sm text-[var(--muted)]">
         <span>{task.assignee}</span>
         <span>•</span>
         <span>{task.dueDate}</span>
       </div>
+
+      {task.labels?.length ? (
+        <div className="mt-4 flex flex-wrap gap-2">
+          {task.labels.map((label) => (
+            <span key={label} className="rounded-full border border-[var(--border)] bg-slate-100 px-3 py-1 text-xs text-[var(--text)]">
+              {label}
+            </span>
+          ))}
+        </div>
+      ) : null}
     </article>
   );
 }

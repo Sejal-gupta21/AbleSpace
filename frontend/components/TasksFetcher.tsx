@@ -7,17 +7,18 @@ import TaskCard from './TaskCard';
 export default function TasksFetcher() {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     let mounted = true;
     async function load() {
       try {
-        const res = await fetch('http://localhost:4000/tasks');
+        const res = await fetch('/api/tasks');
         if (!res.ok) throw new Error('Failed to fetch');
         const data = await res.json();
         if (mounted) setTasks(data);
       } catch (e) {
-        // keep existing sample or show nothing
+        if (mounted) setError('Unable to load tasks.');
         console.error(e);
       } finally {
         if (mounted) setLoading(false);
@@ -48,6 +49,8 @@ export default function TasksFetcher() {
           <div className="space-y-4">
             {loading ? (
               <p className="text-sm text-[var(--muted)]">Loading…</p>
+            ) : error ? (
+              <p className="text-sm text-red-600">{error}</p>
             ) : (
               tasks
                 .filter((t) => t.status === column.value)
